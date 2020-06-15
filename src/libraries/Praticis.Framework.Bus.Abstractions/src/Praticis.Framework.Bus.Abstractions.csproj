@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>Vinicius Lima</Authors>
     <Company>Praticis</Company>
     <RepositoryType>git</RepositoryType>
@@ -13,7 +13,6 @@
   <ItemGroup>
     <PackageReference Include="fluentvalidation" Version="8.6.2" />
     <PackageReference Include="MediatR" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.3" />
   </ItemGroup>
 
 </Project>

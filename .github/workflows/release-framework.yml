@@ -8,8 +8,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      working-directory: ./src/libraries
+    #env:
+      #working-directory: ./src/libraries
 
     steps:
     - uses: actions/checkout@v2
@@ -19,7 +19,8 @@ jobs:
         dotnet-version: 3.1.101
     - name: Create Nuget Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
-      working-directory: ${{env.working-directory}}
+      #working-directory: ${{env.working-directory}}/Praticis.Framework.Bus.Abstractions
+      working-directory: ./src/libraries/Praticis.Framework.Bus.Abstractions
     - name: Archive Nuget Package
       uses: actions/upload-artifact@v1
       with:

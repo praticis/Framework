@@ -5,13 +5,13 @@
     <Authors>Vinicius Lima</Authors>
     <Company>Praticis</Company>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>CQRS;Event Sourcing;Service Bus;Bus;Events;Commands</PackageTags>
+    <PackageTags>CQRS;EventSourcing;ServiceBus;Bus;Events;Commands</PackageTags>
     <Description>A base abstraction to works easy with event driven programming, microservices using Praticis framework.</Description>
     <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="fluentvalidation" Version="8.6.2" />
+    <PackageReference Include="Fluentvalidation" Version="8.6.2" />
     <PackageReference Include="MediatR" Version="8.0.1" />
   </ItemGroup>
 

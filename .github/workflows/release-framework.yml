@@ -20,25 +20,29 @@ jobs:
         dotnet-version: 3.1.101
     # Praticis.Framework.Bus.Abstractions
     - name: Create ${{env.package}} Package
-      env:
-        package: Praticis.Framework.Bus.Abstractions
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.package}}
-    - name: echo "Archive ${{env.package}} Package"
+      env:
+        package: Praticis.Framework.Bus.Abstractions
+    - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
         name: ${{env.package}}
         path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
-        package: Praticis.Framwork.Bus.Abstractions
+        package: Praticis.Framework.Bus.Abstractions
     # Praticis.Framework.Bus
-    - name: Create Praticis.Framework.Bus Package
+    - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
-      working-directory: ${{env.working-directory}}/Praticis.Framework.Bus
-    - name: Archive Praticis.Framework.Bus Package
+      working-directory: ${{env.working-directory}}/${{env.package}}
+      env:
+        package: Praticis.Framework.Bus
+    - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
         name: Praticis.Framework.Bus
-        path: ${{env.working-directory}}/Praticis.Framework.Bus/src/bin/Release/Praticis.Framework.Bus.${{ github.event.release.tag_name }}.nupkg
+        path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        package: Praticis.Framework.Bus
     - name: Publish Nuget Packages
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.nuget_api_key }} --source https://api.nuget.org/v3/index.json --no-symbols true

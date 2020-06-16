@@ -25,5 +25,10 @@ jobs:
       with:
         name: Praticis.Framework.Bus.Abstractions
         path: ${{env.working-directory}}/Praticis.Framework.Bus.Abstractions/src/bin/Release/Praticis.Framework.Bus.Abstractions.${{ github.event.release.tag_name }}.nupkg
+    - name: Archive Nuget Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: Praticis.Framework.Bus
+        path: ${{env.working-directory}}/Praticis.Framework.Bus/src/bin/Release/Praticis.Framework.Bus.${{ github.event.release.tag_name }}.nupkg
     - name: Publish Nuget Package
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.nuget_api_key }} --source https://api.nuget.org/v3/index.json --no-symbols true

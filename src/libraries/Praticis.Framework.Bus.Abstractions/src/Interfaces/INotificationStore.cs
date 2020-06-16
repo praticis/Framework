@@ -7,7 +7,7 @@ namespace Praticis.Framework.Bus.Abstractions
     /// <summary>
     /// A notification store of the execution context.
     /// </summary>
-    public interface INotificationStore : IDisposable
+    public interface INotificationStore
     {
         /// <summary>
         /// Obtains the domain notification messages stored during all execution process.
@@ -106,5 +106,7 @@ namespace Praticis.Framework.Bus.Abstractions
         /// Return True if exists or False if do not exists.
         /// </returns>
         bool HasWarnings();
+
+        void Clear();
     }
 }

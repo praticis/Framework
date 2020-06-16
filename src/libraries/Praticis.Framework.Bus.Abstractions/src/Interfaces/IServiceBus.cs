@@ -1,5 +1,4 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,7 +11,7 @@ namespace Praticis.Framework.Bus.Abstractions
     /// A wrapper implementation about MediatR that provide abstraction for event-driven programming.
     /// Make easy using the most message brokers, parallel worker process and more.
     /// </summary>
-    public interface IServiceBus : IDisposable
+    public interface IServiceBus
     {
         /// <summary>
         /// Store published warning, eystem error, log and domain notifications.

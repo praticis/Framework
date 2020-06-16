@@ -1,0 +1,29 @@
+name: Release to Nuget
+
+on:
+  release:
+    types: [published]
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./src/libraries
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.101
+    - name: Create Nuget Package
+      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
+      working-directory: ${{env.working-directory}}/Praticis.Framework.Bus.Abstractions
+    - name: Archive Nuget Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: Praticis.Framework.Bus.Abstractions
+        path: ${{env.working-directory}}/Praticis.Framework.Bus.Abstractions/src/bin/Release/Praticis.Framework.Bus.Abstractions.${{ github.event.release.tag_name }}.nupkg
+    - name: Publish Nuget Package
+      run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.nuget_api_key }} --source https://api.nuget.org/v3/index.json --no-symbols true

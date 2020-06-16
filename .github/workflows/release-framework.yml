@@ -19,9 +19,9 @@ jobs:
       with:
         dotnet-version: 3.1.101
     # Praticis.Framework.Bus.Abstractions
-    - name: echo "Create ${{env.package}} Package"
+    - name: Create ${{env.package}} Package
       env:
-        package: Praticis.Framwork.Bus.Abstractions
+        package: Praticis.Framework.Bus.Abstractions
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.package}}
     - name: echo "Archive ${{env.package}} Package"

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Vinicius Lima</Authors>
+    <Company>Praticis</Company>
+    <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>CQRS;Event Sourcing;Service Bus;Bus;Events;Commands;Polly;Retry;Retry Policy</PackageTags>
+    <Description>A service bus to works easy with event driven programming, microservices, retry policy and more using Praticis framework.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Moq" Version="4.14.1" />
+    <PackageReference Include="Praticis.Framework.Bus.Abstractions" Version="0.1.0-Preview2" />
+  </ItemGroup>
+
+</Project>

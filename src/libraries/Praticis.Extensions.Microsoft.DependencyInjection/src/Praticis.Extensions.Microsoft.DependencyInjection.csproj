@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Company>Praticis</Company>
+    <Authors>Vinicius Lima</Authors>
+    <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>architecture;dependency-injection;DI;inversion-of-control;IoC;CQRS;event-sourcing;service-bus;bus;events;commands</PackageTags>
+    <Description>Middleware to configure Praticis Framework in .NET applications</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.4" />
+    <PackageReference Include="Praticis.Framework.Bus" Version="0.2.0-Preview1" />
+    <PackageReference Include="Praticis.Framework.Bus.Abstractions" Version="0.2.0-Preview1" />
+  </ItemGroup>
+
+</Project>

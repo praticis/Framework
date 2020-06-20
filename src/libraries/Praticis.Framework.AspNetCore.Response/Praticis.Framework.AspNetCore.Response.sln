@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7F3F3D8D-BE4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BEE239A1-4AAB-4BB9-A84C-8E797FD06779}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praticis.Framework.AspNetCore.Response", "src\Praticis.Framework.AspNetCore.Response\Praticis.Framework.AspNetCore.Response.csproj", "{072EFB67-F6DF-4E8A-A441-7DC9C7BBAF01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Praticis.Framework.AspNetCore.Response", "src\Praticis.Framework.AspNetCore.Response.csproj", "{6E5F1692-840B-41B4-AFA9-D81B7B92A228}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,16 +15,16 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{072EFB67-F6DF-4E8A-A441-7DC9C7BBAF01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{072EFB67-F6DF-4E8A-A441-7DC9C7BBAF01}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{072EFB67-F6DF-4E8A-A441-7DC9C7BBAF01}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{072EFB67-F6DF-4E8A-A441-7DC9C7BBAF01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E5F1692-840B-41B4-AFA9-D81B7B92A228}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E5F1692-840B-41B4-AFA9-D81B7B92A228}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E5F1692-840B-41B4-AFA9-D81B7B92A228}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E5F1692-840B-41B4-AFA9-D81B7B92A228}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{072EFB67-F6DF-4E8A-A441-7DC9C7BBAF01} = {7F3F3D8D-BE4B-461A-A7FD-F69AF32F8723}
+		{6E5F1692-840B-41B4-AFA9-D81B7B92A228} = {7F3F3D8D-BE4B-461A-A7FD-F69AF32F8723}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D75891FC-DB81-497E-9193-339BBD5C310C}

@@ -44,5 +44,45 @@ jobs:
         path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         package: Praticis.Framework.Bus
+    # Praticis.Framework.Layers.Domain.Abstractions
+    - name: Create ${{env.package}} Package
+      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
+      working-directory: ${{env.working-directory}}/${{env.package}}
+      env:
+        package: Praticis.Framework.Bus
+    - name: Archive ${{env.package}} Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: Praticis.Framework.Bus
+        path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        package: Praticis.Framework.Layers.Domain.Abstractions
+    # Praticis.Extensions.Microsoft.DependencyInjection
+    - name: Create ${{env.package}} Package
+      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
+      working-directory: ${{env.working-directory}}/${{env.package}}
+      env:
+        package: Praticis.Framework.Bus
+    - name: Archive ${{env.package}} Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: Praticis.Framework.Bus
+        path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        package: Praticis.Extensions.Microsoft.DependencyInjection
+    # Praticis.Framework.AspNetCore.Response
+    - name: Create ${{env.package}} Package
+      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
+      working-directory: ${{env.working-directory}}/${{env.package}}
+      env:
+        package: Praticis.Framework.Bus
+    - name: Archive ${{env.package}} Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: Praticis.Framework.Bus
+        path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        package: Praticis.Framework.AspNetCore.Response
+    # Publishing All Packages
     - name: Publish Nuget Packages
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.nuget_api_key }} --source https://api.nuget.org/v3/index.json --no-symbols true

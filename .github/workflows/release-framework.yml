@@ -40,7 +40,7 @@ jobs:
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
-        name: Praticis.Framework.Bus
+        name: ${{env.package}}
         path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         package: Praticis.Framework.Bus
@@ -49,11 +49,11 @@ jobs:
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.package}}
       env:
-        package: Praticis.Framework.Bus
+        package: Praticis.Framework.Layers.Domain.Abstractions
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
-        name: Praticis.Framework.Bus
+        name: ${{env.package}}
         path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         package: Praticis.Framework.Layers.Domain.Abstractions
@@ -62,11 +62,11 @@ jobs:
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.package}}
       env:
-        package: Praticis.Framework.Bus
+        package: Praticis.Extensions.Microsoft.DependencyInjection
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
-        name: Praticis.Framework.Bus
+        name: ${{env.package}}
         path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         package: Praticis.Extensions.Microsoft.DependencyInjection
@@ -75,11 +75,11 @@ jobs:
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.package}}
       env:
-        package: Praticis.Framework.Bus
+        package: Praticis.Framework.AspNetCore.Response
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
-        name: Praticis.Framework.Bus
+        name: ${{env.package}}
         path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         package: Praticis.Framework.AspNetCore.Response

@@ -13,17 +13,36 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.101
-    - name: Create Nuget Package
+    # Praticis.Framework.Bus.Abstractions
+    - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
-      working-directory: ${{env.working-directory}}/Praticis.Framework.Bus.Abstractions
-    - name: Archive Nuget Package
+      working-directory: ${{env.working-directory}}/${{env.package}}
+      env:
+        package: Praticis.Framework.Bus.Abstractions
+    - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
-        name: Praticis.Framework.Bus.Abstractions
-        path: ${{env.working-directory}}/Praticis.Framework.Bus.Abstractions/src/bin/Release/Praticis.Framework.Bus.Abstractions.${{ github.event.release.tag_name }}.nupkg
-    - name: Publish Nuget Package
+        name: ${{env.package}}
+        path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        package: Praticis.Framework.Bus.Abstractions
+    # Praticis.Framework.Bus
+    - name: Create ${{env.package}} Package
+      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
+      working-directory: ${{env.working-directory}}/${{env.package}}
+      env:
+        package: Praticis.Framework.Bus
+    - name: Archive ${{env.package}} Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: Praticis.Framework.Bus
+        path: ${{env.working-directory}}/${{env.package}}/src/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        package: Praticis.Framework.Bus
+    - name: Publish Nuget Packages
       run: dotnet nuget push **/*.nupkg --api-key ${{ secrets.nuget_api_key }} --source https://api.nuget.org/v3/index.json --no-symbols true

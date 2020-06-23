@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Praticis.Extensions.Microsoft.DependencyInjection" Version="0.3.0-Preview1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\2.2_DomainName1\ProjectName.DomainName1.Core\ProjectName.DomainName1.Core.csproj" />
+  </ItemGroup>
+
+</Project>

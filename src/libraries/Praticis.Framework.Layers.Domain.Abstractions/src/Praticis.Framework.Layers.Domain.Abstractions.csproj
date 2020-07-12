@@ -2,6 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Vinicius Lima</Authors>
+    <Company>Praticis</Company>
+    <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>domain-driven-design;domain;</PackageTags>
+    <Description>A base Praticis Framework abstraction for domain classes.</Description>
   </PropertyGroup>
 
 </Project>

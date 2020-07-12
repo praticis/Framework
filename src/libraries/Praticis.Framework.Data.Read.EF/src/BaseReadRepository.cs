@@ -141,7 +141,7 @@ namespace Praticis.Framework.Data.Read.EF
 
             try
             {
-                collection = await this.Db.Skip(filter.PageNumber * filter.PageSize)
+                collection = await this.Db.Skip((filter.PageNumber - 1) * filter.PageSize)
                     .Take(filter.PageSize)
                     .AsNoTracking()
                     .ToListAsync();

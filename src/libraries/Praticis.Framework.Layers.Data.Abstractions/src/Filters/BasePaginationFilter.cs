@@ -4,7 +4,8 @@ namespace Praticis.Framework.Layers.Data.Abstractions.Filters
     public class BasePaginationFilter : BaseFilter
     {
         /// <summary>
-        /// The page number of pagination filter.
+        /// The page number of pagination filter. 
+        /// Starts with value 1 by default.
         /// </summary>
         private int _pageNumber;
         public int PageNumber 
@@ -21,6 +22,7 @@ namespace Praticis.Framework.Layers.Data.Abstractions.Filters
 
         /// <summary>
         /// The count items that will be returned of filter.
+        /// Starts with value 1 by default.
         /// </summary>
         private int _pageSize;
         public int PageSize 

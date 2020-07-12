@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectName.DomainName1.Application\ProjectName.DomainName1.Application.csproj" />
+    <ProjectReference Include="..\ProjectName.DomainName1.Domain\ProjectName.DomainName1.Domain.csproj" />
+    <ProjectReference Include="..\ProjectName.DomainName1.Infra.Server.Data\ProjectName.DomainName1.Infra.Server.Data.csproj" />
+  </ItemGroup>
+
+</Project>

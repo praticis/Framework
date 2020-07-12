@@ -1,0 +1,5 @@
+﻿CREATE TABLE [dbo].[Customers]
+(
+	[CustomerId] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Name] VARCHAR(50) NOT NULL
+)

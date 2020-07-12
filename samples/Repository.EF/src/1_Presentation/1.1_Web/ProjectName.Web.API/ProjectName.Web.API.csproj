@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.5" />
+    <PackageReference Include="Praticis.Framework.AspNetCore.Response" Version="0.3.0-Preview1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\2_Domain\2.1_Shared\ProjectName.Shared.Infra.Server.IoC\ProjectName.Shared.Infra.Server.IoC.csproj" />
+    <ProjectReference Include="..\..\..\2_Domain\2.2_DomainName1\ProjectName.DomainName1.Application\ProjectName.DomainName1.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Praticis.Framework.Bus">
+      <HintPath>..\..\..\..\..\..\src\libraries\Praticis.Framework.Bus\src\bin\Debug\netstandard2.1\Praticis.Framework.Bus.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+</Project>

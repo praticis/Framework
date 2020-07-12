@@ -1,0 +1,7 @@
+﻿CREATE TABLE [dbo].[Addresses]
+(
+	[AddressId] UNIQUEIDENTIFIER NOT NULL PRIMARY KEY, 
+    [Street] VARCHAR(50) NOT NULL, 
+    [Number] VARCHAR(10) NOT NULL, 
+    [CustomerId] UNIQUEIDENTIFIER NOT NULL
+)

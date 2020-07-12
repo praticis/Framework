@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\src\libraries\Praticis.Framework.Data.Read.EF\src\Praticis.Framework.Data.Read.EF.csproj" />
+    <ProjectReference Include="..\..\..\..\..\..\src\libraries\Praticis.Framework.Data.Write.EF\src\Praticis.Framework.Data.Write.EF.csproj" />
+    <ProjectReference Include="..\ProjectName.DomainName1.Domain\ProjectName.DomainName1.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.5" />
+  </ItemGroup>
+
+</Project>

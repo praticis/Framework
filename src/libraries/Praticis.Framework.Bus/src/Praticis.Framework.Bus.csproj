@@ -6,7 +6,7 @@
     <Company>Praticis</Company>
     <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageTags>CQRS;Event Sourcing;Service Bus;Bus;Events;Commands;Polly;Retry;Retry Policy</PackageTags>
+    <PackageTags>CQRS;EventSourcing;ServiceBus;Bus;Events;Commands;Polly;Retry;RetryPolicy</PackageTags>
     <Description>A service bus to works easy with event driven programming, microservices, retry policy and more using Praticis framework.</Description>
   </PropertyGroup>
 

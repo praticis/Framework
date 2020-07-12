@@ -14,9 +14,10 @@ namespace Praticis.Framework.Layers.Domain.Abstractions
 
         #endregion
 
-        public BaseModel()
+        public BaseModel(bool generateId = true)
         {
-            this.Id = Guid.NewGuid();
+            if (generateId)
+                this.Id = Guid.NewGuid();
         }
 
         #region Comparer Overrides

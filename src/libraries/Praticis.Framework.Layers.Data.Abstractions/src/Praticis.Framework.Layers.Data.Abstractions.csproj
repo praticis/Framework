@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Vinicius Lima</Authors>
+    <Company>Praticis</Company>
+    <Description>An abstraction for data access to make easy CRUD operations, find and pagination data, apply and use repository pattern.</Description>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
+    <PackageTags>Repository,RepositoryPattern,repository-pattern,CRUD,Data,Entity,Framework,entity-framework-core,EntityFramework,EntityFrameworkCore,EFCore,ORM</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Praticis.Framework.Layers.Domain.Abstractions" Version="0.3.0-Preview1" />
+  </ItemGroup>
+
+</Project>

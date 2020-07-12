@@ -41,10 +41,28 @@ namespace Praticis.Framework.Data.Write.EF
             return saved;
         }
 
-        public virtual async Task SaveRangeAsync(IEnumerable<TModel> models)
+        public virtual Task SaveRangeAsync(IEnumerable<TModel> models)
         {
+            List<Task> tasks = new List<Task>();
+
             foreach (var model in models)
-                await this.SaveAsync(model);
+                tasks.Add(this.SaveAsync(model));
+
+            Task.WaitAll(tasks.ToArray());
+
+            return Task.CompletedTask;
+        }
+
+        public virtual Task SaveRangeAsync(params TModel[] models)
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (var model in models)
+                tasks.Add(this.SaveAsync(model));
+
+            Task.WaitAll(tasks.ToArray());
+
+            return Task.CompletedTask;
         }
 
         protected virtual async Task<bool> Add(TModel model)
@@ -102,6 +120,47 @@ namespace Praticis.Framework.Data.Write.EF
 
                 return false;
             }
+        }
+
+        public virtual Task RemoveAsync(params Guid[] ids)
+        {
+            List<Task> tasks = new List<Task>();
+            
+            foreach (var id in ids)
+                tasks.Add(this.RemoveAsync(id));
+
+            Task.WaitAll(tasks.ToArray());
+
+            return Task.CompletedTask;
+        }
+
+        public virtual async Task<bool> RemoveAsync(TModel model)
+        {
+            try
+            {
+                this.Db.Remove(model);
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                var msg = string.Format($"An error ocurred during remove {typeof(TModel).Name} model");
+                await this._serviceBus.PublishEvent(new SystemError(msg, model, e));
+
+                return false;
+            }
+        }
+
+        public virtual Task RemoveAsync(params TModel[] models)
+        {
+            List<Task> tasks = new List<Task>();
+
+            foreach (var model in models)
+                tasks.Add(this.RemoveAsync(model));
+
+            Task.WaitAll(tasks.ToArray());
+
+            return Task.CompletedTask;
         }
 
         public virtual bool Commit()

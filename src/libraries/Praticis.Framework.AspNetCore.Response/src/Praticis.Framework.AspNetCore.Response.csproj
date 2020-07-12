@@ -7,7 +7,7 @@
     <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>AspNetCore;Response;BaseController;MVC</PackageTags>
-    <Description>A base controller to obtains notifications from service bus notification store of Praticis Framework and format a json response with details level based on environment.</Description>
+    <Description>A base controller to obtains notifications from bus notification store of Praticis Framework and format a json response with details level based on environment.</Description>
   </PropertyGroup>
 
   <ItemGroup>

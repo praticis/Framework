@@ -82,13 +82,13 @@ namespace Praticis.Framework.Layers.Data.Abstractions
         /// filter and load on demand.
         /// </summary>
         /// <returns>
-        /// Returns a model collection with all entities. Empty list will be returned if not existis entities.
+        /// Returns a model collection with all entities. Empty list will be returned if not exists entities.
         /// See errors and notifications in service bus to verify if there was any problem.
         /// </returns>
         Task<IList<TModel>> GetAllAsync();
 
         /// <summary>
-        /// Load all entities. Use PageIndex and PageSize parameters to limit reeturn length.
+        /// Load all entities. Use PageIndex and PageSize parameters to limit return length.
         /// </summary>
         /// <param name="filter">The pagination parameters</param>
         /// <returns>
@@ -98,7 +98,7 @@ namespace Praticis.Framework.Layers.Data.Abstractions
         Task<IList<TModel>> GetAllAsync(BasePaginationFilter filter);
 
         /// <summary>
-        /// Load all entities. Use PageIndex and PageSize parameters to limit reeturn length.
+        /// Load all entities. Use PageIndex and PageSize parameters to limit return length.
         /// </summary>
         /// <param name="filter">The pagination parameters</param>
         /// <returns>

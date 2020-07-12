@@ -13,7 +13,7 @@ using Praticis.Framework.Layers.Domain.Abstractions;
 
 namespace Praticis.Framework.Data.Write.EF
 {
-    public class BaseWriteRepository<TModel> : IBaseRepository<TModel>
+    public class BaseRepository<TModel> : IBaseRepository<TModel>
         where TModel : class, IModel
     {
         private readonly IServiceBus _serviceBus;
@@ -21,7 +21,7 @@ namespace Praticis.Framework.Data.Write.EF
         protected DbSet<TModel> Db { get; private set; }
         private IBaseReadRepository<TModel> _readRepository { get; set; }
 
-        public BaseWriteRepository(DbContext context, IBaseReadRepository<TModel> readRepository, IServiceBus serviceBus)
+        public BaseRepository(DbContext context, IBaseReadRepository<TModel> readRepository, IServiceBus serviceBus)
         {
             this.Context = context;
             this.Db = context.Set<TModel>();
@@ -81,7 +81,7 @@ namespace Praticis.Framework.Data.Write.EF
             }
         }
 
-        public async Task<bool> RemoveAsync(Guid id)
+        public virtual async Task<bool> RemoveAsync(Guid id)
         {
             try
             {
@@ -123,7 +123,9 @@ namespace Praticis.Framework.Data.Write.EF
         {
             try
             {
-                return (await this.Context.SaveChangesAsync()) > 0;
+                var affectedRows = await this.Context.SaveChangesAsync();
+
+                return affectedRows > 0;
             }
             catch (Exception e)
             {

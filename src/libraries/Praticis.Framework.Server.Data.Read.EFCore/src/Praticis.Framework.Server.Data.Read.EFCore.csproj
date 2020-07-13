@@ -6,7 +6,7 @@
     <Company>Praticis</Company>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
-    <PackageTags>Repository,RepositoryPattern,repository-pattern,CRUD,Data,Entity,Framework,entity-framework-core,EntityFramework,EntityFrameworkCore,EFCore,ORM</PackageTags>
+    <PackageTags>Repository,RepositoryPattern,repository-pattern,Data,DataAccess,Entity,EntityFramework,entity-framework-core,EntityFrameworkCore,EFCore,ORM</PackageTags>
     <Description>A data access implementation to make easy find and pagination data, applying repository pattern using Entity Framework.</Description>
   </PropertyGroup>
 
@@ -14,7 +14,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Praticis.Framework.Bus.Abstractions" Version="0.3.0-Preview2" />
     <PackageReference Include="Praticis.Framework.Layers.Data.Abstractions" Version="0.3.0-Preview2" />
-    <PackageReference Include="Praticis.Framework.Layers.Domain.Abstractions" Version="0.3.0-Preview2" />
   </ItemGroup>
 
 </Project>

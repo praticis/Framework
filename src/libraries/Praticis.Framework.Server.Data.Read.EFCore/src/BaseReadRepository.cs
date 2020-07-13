@@ -12,7 +12,7 @@ using Praticis.Framework.Layers.Data.Abstractions;
 using Praticis.Framework.Layers.Data.Abstractions.Filters;
 using Praticis.Framework.Layers.Domain.Abstractions;
 
-namespace Praticis.Framework.Server.Data.Read.EF
+namespace Praticis.Framework.Server.Data.Read.EFCore
 {
     public class BaseReadRepository<TModel> : IBaseReadRepository<TModel>
         where TModel : class, IModel

@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Praticis.Framework.Layers.Domain.Abstractions" Version="0.3.0-Preview1" />
+    <ProjectReference Include="..\..\Praticis.Framework.Layers.Domain.Abstractions\src\Praticis.Framework.Layers.Domain.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

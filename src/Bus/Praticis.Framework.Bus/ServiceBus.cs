@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using FluentValidation.Results;
 using MediatR;
 
 using Praticis.Framework.Bus.Abstractions;
@@ -48,6 +49,12 @@ namespace Praticis.Framework.Bus
         /// </returns>
         public virtual async Task<bool> PublishEvent(IEvent @event)
         {
+            if (!@event.IsValid)
+            {
+                this.NotifyValidationFailures(@event.Validate());
+                return false;
+            }
+
             if (@event.ExecutionMode == ExecutionMode.WaitToClose)
                 await this._mediator.Publish(@event);
             else
@@ -63,6 +70,12 @@ namespace Praticis.Framework.Bus
         /// <returns>Returns <strong>True</strong> if successfully executed or <strong>False</strong> if failed.</returns>
         public virtual async Task<bool> SendCommand(ICommand command)
         {
+            if (!command.IsValid)
+            {
+                this.NotifyValidationFailures(command.Validate());
+                return false;
+            }
+
             if (command.ExecutionMode == ExecutionMode.WaitToClose)
                 return await this._mediator.Send(command);
             else
@@ -80,6 +93,12 @@ namespace Praticis.Framework.Bus
         /// </returns>
         public virtual async Task<TResponse> SendCommand<TResponse>(ICommand<TResponse> command)
         {
+            if (!command.IsValid)
+            {
+                this.NotifyValidationFailures(command.Validate());
+                return default(TResponse);
+            }
+
             if (command.ExecutionMode == ExecutionMode.WaitToClose)
                 return await this._mediator.Send(command);
             else
@@ -123,6 +142,22 @@ namespace Praticis.Framework.Bus
             await this._mediator.Publish(new EnqueueWorksEvent(works));
 
             return !this.Notifications.HasNotifications();
+        }
+
+        /// <summary>
+        /// Sent notification failures to notification store.
+        /// </summary>
+        /// <param name="failures">The validation failures. 
+        /// Call Validate() method of the command or event to get validation failures.
+        /// </param>
+        private void NotifyValidationFailures(IEnumerable<ValidationFailure> failures)
+        {
+            List<Task> tasks = new List<Task>();
+            
+            foreach (var failure in failures)
+                tasks.Add(this._mediator.Publish(new Notification(failure.ErrorCode, failure.ErrorMessage)));
+            
+            Task.WaitAll(tasks.ToArray());
         }
     }
 }

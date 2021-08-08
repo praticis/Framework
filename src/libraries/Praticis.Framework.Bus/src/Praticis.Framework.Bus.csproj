@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Praticis.Framework.Bus.Abstractions" Version="0.1.0-Preview2" />
+    <ProjectReference Include="..\..\Praticis.Framework.Bus.Abstractions\src\Praticis.Framework.Bus.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

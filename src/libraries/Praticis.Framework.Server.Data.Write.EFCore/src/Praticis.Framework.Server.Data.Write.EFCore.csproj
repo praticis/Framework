@@ -12,8 +12,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.5" />
-    <PackageReference Include="Praticis.Framework.Bus.Abstractions" Version="0.3.0-Preview1" />
-    <PackageReference Include="Praticis.Framework.Layers.Data.Abstractions" Version="0.3.0-Preview2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Praticis.Framework.Bus.Abstractions\src\Praticis.Framework.Bus.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Praticis.Framework.Layers.Data.Abstractions\src\Praticis.Framework.Layers.Data.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

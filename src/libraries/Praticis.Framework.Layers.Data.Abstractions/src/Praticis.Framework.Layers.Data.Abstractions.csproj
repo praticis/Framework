@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
     <Authors>Vinicius Lima</Authors>
     <Company>Praticis</Company>
     <Description>An abstraction for data access to make easy CRUD operations, find and pagination data, apply and use repository pattern.</Description>

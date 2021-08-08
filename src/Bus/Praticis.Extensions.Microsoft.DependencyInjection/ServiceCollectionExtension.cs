@@ -5,6 +5,7 @@ using System.Reflection;
 
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+
 using Praticis.Framework.Bus;
 using Praticis.Framework.Bus.Abstractions;
 using Praticis.Framework.Bus.Handlers;
@@ -22,7 +23,7 @@ namespace Praticis.Extensions.Bus.Microsoft.DependencyInjection
         public static void AddServiceBus(this IServiceCollection services)
         {
             // Add Mediator Service
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMediatR(typeof(ServiceCollectionExtension).Assembly);
 
             // Service Bus Core
             services.AddScoped<IServiceBus, ServiceBus>();
@@ -49,7 +50,7 @@ namespace Praticis.Extensions.Bus.Microsoft.DependencyInjection
         public static void AddServiceBus(this IServiceCollection services, Assembly[] assemblies)
         {
             // Add Mediator Service
-            services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddMediatR(typeof(ServiceCollectionExtension).Assembly);
             services.AddMediatR(assemblies);
 
             // Service Bus Core

@@ -16,7 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Bus\Praticis.Framework.Bus.Abstractions\Praticis.Framework.Bus.Abstractions.csproj" />
-    <ProjectReference Include="..\Praticis.Framework.Layers.Data.Abstractions\Praticis.Framework.Layers.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Domain\Praticis.Framework.Layers.Domain.Abstractions\Praticis.Framework.Layers.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\Praticis.Framework.Server.Data.Abstractions\Praticis.Framework.Server.Data.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

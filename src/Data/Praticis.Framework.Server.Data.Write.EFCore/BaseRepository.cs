@@ -7,21 +7,20 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Praticis.Framework.Bus.Abstractions;
 
-using Praticis.Framework.Layers.Data.Abstractions;
-using Praticis.Framework.Layers.Data.Abstractions.Filters;
-using Praticis.Framework.Layers.Domain.Abstractions;
+using Praticis.Framework.Layers.Domain.Abstractions.Objects;
+using Praticis.Framework.Server.Data.Abstractions;
 
 namespace Praticis.Framework.Server.Data.Write.EFCore
 {
-    public class BaseRepository<TModel> : IBaseRepository<TModel>
-        where TModel : class, IModel
+    public class BaseRepository<TModel, TId> : IBaseRepository<TModel, TId>
+        where TModel : IdentifiedObject<TId>
     {
         private readonly IServiceBus _serviceBus;
         protected DbContext Context { get; private set; }
         protected DbSet<TModel> Db { get; private set; }
-        private IBaseReadRepository<TModel> _readRepository { get; set; }
+        private IBaseReadRepository<TModel, TId> _readRepository { get; set; }
 
-        public BaseRepository(DbContext context, IBaseReadRepository<TModel> readRepository, IServiceBus serviceBus)
+        public BaseRepository(DbContext context, IBaseReadRepository<TModel, TId> readRepository, IServiceBus serviceBus)
         {
             this.Context = context;
             this.Db = context.Set<TModel>();
@@ -158,7 +157,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns <strong>True</strong> when sucess or <strong>False</strong> when there are errors
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<bool> RemoveAsync(Guid id)
+        public virtual async Task<bool> RemoveAsync(TId id)
         {
             try
             {
@@ -191,7 +190,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns <strong>True</strong> when sucess or <strong>False</strong> when there are errors
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task RemoveAsync(params Guid[] ids)
+        public virtual Task RemoveAsync(params TId[] ids)
         {
             List<Task> tasks = new List<Task>();
             
@@ -307,7 +306,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// <returns>
         /// Returns <strong>True</strong> if model exists or  <strong>False</strong> if does not exist.
         /// </returns>
-        public virtual bool Exists(Guid id) => this._readRepository.Exists(id);
+        public virtual bool Exists(TId id) => this._readRepository.Exists(id);
 
         /// <summary>
         /// Verify if a model exists by main identification properties. The default is the key.
@@ -327,7 +326,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model if found. Null will be returned if not found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<TModel> SearchByIdAsync(Guid id) => this._readRepository.SearchByIdAsync(id);
+        public virtual Task<TModel> SearchByIdAsync(TId id) => this._readRepository.SearchByIdAsync(id);
 
         /// <summary>
         /// Filters a sequence of models based on a predicate.

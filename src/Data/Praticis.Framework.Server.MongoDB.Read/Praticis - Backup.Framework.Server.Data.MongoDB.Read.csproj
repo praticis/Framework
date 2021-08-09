@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MongoDB.Driver" Version="2.12.4" />
+    <PackageReference Include="Praticis.Framework.Bus.Abstractions" Version="0.1.0-alpha0005" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Praticis.Framework.Server.Data.Abstractions\Praticis.Framework.Server.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\Praticis.Framework.Server.Data.Abstractions\Praticis.Framework.Server.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\Praticis.Framework.Server.Data.MongoDB.Abstractions\Praticis.Framework.Server.Data.MongoDB.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

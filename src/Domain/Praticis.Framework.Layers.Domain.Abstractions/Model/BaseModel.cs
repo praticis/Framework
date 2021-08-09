@@ -1,24 +1,30 @@
-﻿
+﻿using Praticis.Framework.Layers.Domain.Abstractions.Objects;
 using System;
 
 namespace Praticis.Framework.Layers.Domain.Abstractions
 {
-    public abstract class BaseModel : IModel
+    /// <summary>
+    /// An base model with equality and identified features.
+    /// </summary>
+    public abstract class BaseModel : BaseModel<Guid>
     {
-        #region Custom Getters and Setters
-
-        /// <summary>
-        /// Obtains Identification Key of Entity.
-        /// </summary>
-        public Guid Id { get; protected set; }
-
-        #endregion
-
         public BaseModel(bool generateId = true)
         {
             if (generateId)
                 this.Id = Guid.NewGuid();
         }
+    }
+
+    /// <summary>
+    /// An base model with equality and identified features.
+    /// </summary>
+    public abstract class BaseModel<TId> : IdentifiedObject<TId>
+    {
+        public BaseModel()
+        { }
+
+        public BaseModel(TId id)
+            => base.Id = id;
 
         #region Comparer Overrides
 
@@ -40,7 +46,7 @@ namespace Praticis.Framework.Layers.Domain.Abstractions
             return Id.Equals(compareTo.Id);
         }
 
-        public static bool operator == (BaseModel a, BaseModel b)
+        public static bool operator ==(BaseModel<TId> a, BaseModel<TId> b)
         {
             if (ReferenceEquals(a, null) && ReferenceEquals(b, null))
                 return true;
@@ -51,7 +57,7 @@ namespace Praticis.Framework.Layers.Domain.Abstractions
             return a.Equals(b);
         }
 
-        public static bool operator != (BaseModel a, BaseModel b)
+        public static bool operator != (BaseModel<TId> a, BaseModel<TId> b)
         { return !(a == b); }
 
         public override int GetHashCode()

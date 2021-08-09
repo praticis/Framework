@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 using Praticis.Framework.Bus.Abstractions;
-using Praticis.Framework.Layers.Data.Abstractions;
-using Praticis.Framework.Layers.Data.Abstractions.Filters;
-using Praticis.Framework.Layers.Domain.Abstractions;
+using Praticis.Framework.Layers.Domain.Abstractions.Objects;
+using Praticis.Framework.Server.Data.Abstractions;
+using Praticis.Framework.Server.Data.Abstractions.Filters;
 
 namespace Praticis.Framework.Server.Data.Read.EFCore
 {
-    public class BaseReadRepository<TModel> : IBaseReadRepository<TModel>
-        where TModel : class, IModel
+    public class BaseReadRepository<TModel, TId> : IBaseReadRepository<TModel, TId>
+        where TModel : IdentifiedObject<TId>
     {
         /// <summary>
         /// The service bus.
@@ -49,8 +49,8 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// <returns>
         /// Returns <strong>True</strong> if model exists or  <strong>False</strong> if does not exist.
         /// </returns>
-        public virtual bool Exists(Guid id)
-            => this.SearchByIdAsync(id).GetAwaiter().GetResult() != null;
+        public virtual bool Exists(TId id)
+            => this.FindByIdAsync(id).GetAwaiter().GetResult() != null;
 
         /// <summary>
         /// Verify if a model exists by main identification properties. The default is the key.
@@ -67,7 +67,12 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
                 return false;
             }
 
-            return this.SearchByIdAsync(model.Id).GetAwaiter().GetResult() != null;
+            return this.FindByIdAsync(model.Id).GetAwaiter().GetResult() != null;
+        }
+
+        public bool Exists(Expression<Func<TModel, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -79,13 +84,13 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model if found. Null will be returned if not found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<TModel> SearchByIdAsync(Guid id)
+        public virtual async Task<TModel> FindByIdAsync(TId id)
         {
             TModel model;
 
             try
             {
-                model = await this.Db.Where(m => m.Id == id)
+                model = await this.Db.Where(m => m.Id.Equals(id))
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
             }
@@ -255,6 +260,21 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
             this.Context.Dispose();
             this.Context = null;
             this.Db = null;
+        }
+
+        public IQueryable<TModel> Query()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> CountAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<long> CountAsync(Expression<Func<TModel, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

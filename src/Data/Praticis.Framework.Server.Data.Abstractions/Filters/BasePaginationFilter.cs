@@ -1,14 +1,16 @@
 ﻿
-namespace Praticis.Framework.Layers.Data.Abstractions.Filters
+namespace Praticis.Framework.Server.Data.Abstractions.Filters
 {
     public class BasePaginationFilter : BaseFilter
     {
+        #region Properties
+
         /// <summary>
         /// The page number of pagination filter. 
         /// Starts with value 1 by default.
         /// </summary>
         private int _pageNumber;
-        public int PageNumber 
+        public int PageNumber
         {
             get
             {
@@ -25,7 +27,7 @@ namespace Praticis.Framework.Layers.Data.Abstractions.Filters
         /// Starts with value 1 by default.
         /// </summary>
         private int _pageSize;
-        public int PageSize 
+        public int PageSize
         {
             get
             {
@@ -36,5 +38,12 @@ namespace Praticis.Framework.Layers.Data.Abstractions.Filters
             }
             set => this._pageSize = value;
         }
+
+        /// <summary>
+        /// The count items need to skip to get items of <see cref="PageNumber"/>.
+        /// </summary>
+        public int SkipLength => (this.PageNumber - 1) * this.PageSize;
+
+        #endregion
     }
 }

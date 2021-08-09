@@ -23,7 +23,7 @@ jobs:
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.context}}/${{env.package}}
       env:
-        context: BUS
+        context: Bus
         package: Praticis.Framework.Bus.Abstractions
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
@@ -48,21 +48,6 @@ jobs:
       env:
         context: Bus
         package: Praticis.Framework.Bus
-    # Praticis.Framework.Layers.Domain.Abstractions
-    - name: Create ${{env.package}} Package
-      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
-      working-directory: ${{env.working-directory}}/${{env.context}}/${{env.package}}
-      env:
-        context: Domain
-        package: Praticis.Framework.Layers.Domain.Abstractions
-    - name: Archive ${{env.package}} Package
-      uses: actions/upload-artifact@v1
-      with:
-        name: ${{env.package}}
-        path: ${{env.working-directory}}/${{env.context}}/${{env.package}}/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
-      env:
-        context: Domain
-        package: Praticis.Framework.Layers.Domain.Abstractions
     # Praticis.Extensions.Microsoft.DependencyInjection
     - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
@@ -78,6 +63,21 @@ jobs:
       env:
         context: Bus
         package: Praticis.Extensions.Microsoft.DependencyInjection
+    # Praticis.Framework.Layers.Domain.Abstractions
+    - name: Create ${{env.package}} Package
+      run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
+      working-directory: ${{env.working-directory}}/${{env.context}}/${{env.package}}
+      env:
+        context: Domain
+        package: Praticis.Framework.Layers.Domain.Abstractions
+    - name: Archive ${{env.package}} Package
+      uses: actions/upload-artifact@v1
+      with:
+        name: ${{env.package}}
+        path: ${{env.working-directory}}/${{env.context}}/${{env.package}}/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
+      env:
+        context: Domain
+        package: Praticis.Framework.Layers.Domain.Abstractions
     # Praticis.Framework.API.Response
     - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"

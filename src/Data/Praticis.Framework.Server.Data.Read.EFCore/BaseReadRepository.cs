@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -10,12 +11,12 @@ using Microsoft.EntityFrameworkCore;
 using Praticis.Framework.Bus.Abstractions;
 using Praticis.Framework.Layers.Data.Abstractions;
 using Praticis.Framework.Layers.Data.Abstractions.Filters;
-using Praticis.Framework.Layers.Domain.Abstractions;
+using Praticis.Framework.Layers.Domain.Abstractions.Objects;
 
 namespace Praticis.Framework.Server.Data.Read.EFCore
 {
-    public class BaseReadRepository<TModel> : IBaseReadRepository<TModel>
-        where TModel : class, IModel
+    public class BaseReadRepository<TModel, TId> : IBaseReadRepository<TModel, TId>
+        where TModel : IdentifiedObject<TId>
     {
         /// <summary>
         /// The service bus.
@@ -29,7 +30,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// The entity framework DbSet of this model.
         /// </summary>
         protected DbSet<TModel> Db { get; private set; }
-        
+
         /// <summary>
         /// Create a base repository for read operations.
         /// </summary>
@@ -49,8 +50,8 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// <returns>
         /// Returns <strong>True</strong> if model exists or  <strong>False</strong> if does not exist.
         /// </returns>
-        public virtual bool Exists(Guid id)
-            => this.SearchByIdAsync(id).GetAwaiter().GetResult() != null;
+        public virtual bool Exists([NotNull] TId id)
+            => this.FindByIdAsync(id).GetAwaiter().GetResult() != null;
 
         /// <summary>
         /// Verify if a model exists by main identification properties. The default is the key.
@@ -59,16 +60,11 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// <returns>
         /// Returns <strong>True</strong> if model exists or <strong>False</strong> if does not exist.
         /// </returns>
-        public virtual bool Exists(TModel model)
-        {
-            if (model is null)
-            {
-                this.ServiceBus.PublishEvent(new SystemError("Model can not be null"));
-                return false;
-            }
+        public virtual bool Exists([NotNull] TModel model)
+            => this.FindByIdAsync(model.Id).GetAwaiter().GetResult() != null;
 
-            return this.SearchByIdAsync(model.Id).GetAwaiter().GetResult() != null;
-        }
+        public bool Exists([NotNull] Expression<Func<TModel, bool>> predicate)
+            => this.FindAsync(predicate).GetAwaiter().GetResult().Any();
 
         /// <summary>
         /// Find a model by identification key.
@@ -79,13 +75,13 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model if found. Null will be returned if not found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<TModel> SearchByIdAsync(Guid id)
+        public virtual async Task<TModel> FindByIdAsync(TId id)
         {
             TModel model;
 
             try
             {
-                model = await this.Db.Where(m => m.Id == id)
+                model = await this.Db.Where(m => m.Id.Equals(id))
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
             }
@@ -110,7 +106,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate)
+        public virtual async Task<IEnumerable<TModel>> FindAsync([NotNull] Expression<Func<TModel, bool>> predicate)
         {
             try
             {
@@ -136,11 +132,12 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, Action<BasePaginationFilter> filter)
+        public virtual Task<IEnumerable<TModel>> FindAsync([NotNull] Expression<Func<TModel, bool>> predicate, Action<BasePaginationFilter> filter)
         {
             var options = new BasePaginationFilter();
 
-            filter.Invoke(options);
+            if (filter != null)
+                filter.Invoke(options);
 
             return this.FindAsync(predicate, options);
         }
@@ -154,10 +151,12 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, BasePaginationFilter filter)
+        public virtual async Task<IEnumerable<TModel>> FindAsync([NotNull] Expression<Func<TModel, bool>> predicate, BasePaginationFilter filter)
         {
             try
             {
+                filter = filter ?? new BasePaginationFilter();
+
                 return await this.Db.Where(predicate)
                     .Skip(filter.PageNumber * filter.PageSize)
                     .Take(filter.PageSize)
@@ -182,7 +181,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection with all entities. Empty list will be returned if not existis entities.
         /// See errors and notifications in service bus to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> GetAllAsync()
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
             IList<TModel> collection;
 
@@ -194,7 +193,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
             catch (Exception e)
             {
                 collection = new List<TModel>();
-                var msg = string.Format($"An error ocurred during search {typeof(TModel).Name} models");
+                var msg = string.Format($"An error ocurred during get all {typeof(TModel).Name} models");
                 await this.ServiceBus.PublishEvent(new SystemError(msg, e));
             }
 
@@ -209,11 +208,12 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> GetAllAsync(Action<BasePaginationFilter> filter)
+        public virtual Task<IEnumerable<TModel>> GetAllAsync(Action<BasePaginationFilter> filter)
         {
             var options = new BasePaginationFilter();
 
-            filter.Invoke(options);
+            if (filter != null)
+                filter.Invoke(options);
 
             return this.GetAllAsync(options);
         }
@@ -226,12 +226,14 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> GetAllAsync(BasePaginationFilter filter)
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync(BasePaginationFilter filter)
         {
             IList<TModel> collection;
 
             try
             {
+                filter = filter ?? new BasePaginationFilter();
+
                 collection = await this.Db.Skip((filter.PageNumber - 1) * filter.PageSize)
                     .Take(filter.PageSize)
                     .AsNoTracking()
@@ -240,12 +242,38 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
             catch (Exception e)
             {
                 collection = new List<TModel>();
-                var msg = string.Format($"An error ocurred during search {typeof(TModel).Name} models");
+                var msg = string.Format($"An error ocurred during get all {typeof(TModel).Name} models");
                 await this.ServiceBus.PublishEvent(new SystemError(msg, filter, e.Message));
             }
 
             return collection;
         }
+
+        /// <summary>
+        /// Counts the number of models in the database.
+        /// </summary>
+        /// <returns>Returns the number of models if exists or 0 if is empty.</returns>
+        public virtual Task<long> CountAsync()
+            => this.Db.LongCountAsync();
+
+        /// <summary>
+        /// Counts the number of models in database that satisfies a condition.
+        /// </summary>
+        /// <param name="predicate">A function to test each model for a condition.</param>
+        /// <returns>
+        /// Returns a model if found. Null will be returned if not found.
+        /// See errors and notifications in service bus notification store to verify if there was any problem.
+        /// </returns>
+        public virtual Task<long> CountAsync(Expression<Func<TModel, bool>> predicate)
+            => this.Db.LongCountAsync(predicate);
+
+        /// <summary>
+        /// Create a LINQ queryable of model.
+        /// </summary>
+        /// <returns>
+        /// Returns a queryable of model.
+        /// </returns>
+        public virtual IQueryable<TModel> Query() => this.Db.AsQueryable();
 
         /// <summary>
         /// Set null and dispose entity framework objects.

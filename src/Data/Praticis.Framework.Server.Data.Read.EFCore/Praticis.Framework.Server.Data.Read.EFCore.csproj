@@ -8,6 +8,7 @@
     <RepositoryUrl>https://github.com/Praticis/Framework</RepositoryUrl>
     <PackageTags>Repository,RepositoryPattern,repository-pattern,Data,DataAccess,Entity,EntityFramework,entity-framework-core,EntityFrameworkCore,EFCore,ORM</PackageTags>
     <Description>A data access implementation to make easy find and pagination data, applying repository pattern using Entity Framework.</Description>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
 
   <ItemGroup>

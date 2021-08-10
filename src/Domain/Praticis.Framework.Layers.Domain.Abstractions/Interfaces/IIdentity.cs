@@ -3,14 +3,16 @@ using System;
 
 namespace Praticis.Framework.Layers.Domain.Abstractions
 {
-    public interface IIdentity
+    public interface IIdentity : IIdentity<Guid>
+    {
+
+    }
+
+    public interface IIdentity<TKey>
     {
         /// <summary>
-        /// Obtains Identification Key of Entity.
+        /// The identification key.
         /// </summary>
-        /// <returns>
-        /// Return the Identification Key of Entity.
-        /// </returns>
-        Guid Id { get; }
+        TKey Id { get; }
     }
 }

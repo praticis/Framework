@@ -10,4 +10,8 @@
     <Description>A base Praticis Framework abstraction for domain classes.</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.3.0" />
+  </ItemGroup>
+
 </Project>

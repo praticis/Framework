@@ -1,5 +1,6 @@
-﻿using Praticis.Framework.Layers.Domain.Abstractions.Objects;
-using System;
+﻿using System;
+
+using Praticis.Framework.Layers.Domain.Abstractions.Objects;
 
 namespace Praticis.Framework.Layers.Domain.Abstractions
 {

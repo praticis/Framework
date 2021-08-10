@@ -4,6 +4,7 @@ using Xunit;
 using Praticis.Framework.Layers.Domain.Abstractions;
 using Praticis.Framework.Tests.Layers.Domain.Abstractions.Fakes;
 using System;
+using Praticis.Framework.Layers.Domain.Abstractions.Interfaces;
 
 namespace Praticis.Framework.Tests.Layers.Domain.Abstractions.UnitTests
 {
@@ -17,7 +18,7 @@ namespace Praticis.Framework.Tests.Layers.Domain.Abstractions.UnitTests
             Assert.NotEqual(default, model.Id);
             Assert.Contains(model.Id.ToString(), model.ToString());
             Assert.Contains(typeof(DefaultModel).Name, model.ToString());
-            Assert.True(model is IModel);
+            Assert.True(model is IIdentity<Guid>);
         }
 
         [Fact]

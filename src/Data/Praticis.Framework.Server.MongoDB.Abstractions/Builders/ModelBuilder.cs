@@ -5,7 +5,6 @@ using System.Reflection;
 
 using MongoDB.Bson.Serialization;
 
-using Praticis.Framework.Layers.Domain.Abstractions;
 using Praticis.Framework.Layers.Domain.Abstractions.Objects;
 
 namespace Praticis.Framework.Server.Data.MongoDB.Abstractions.Builders

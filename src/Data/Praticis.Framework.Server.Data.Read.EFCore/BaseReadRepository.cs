@@ -115,7 +115,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate)
+        public virtual async Task<IEnumerable<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate)
         {
             try
             {
@@ -141,7 +141,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, Action<BasePaginationFilter> filter)
+        public virtual Task<IEnumerable<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, Action<BasePaginationFilter> filter)
         {
             var options = new BasePaginationFilter();
 
@@ -159,7 +159,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, BasePaginationFilter filter)
+        public virtual async Task<IEnumerable<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, BasePaginationFilter filter)
         {
             try
             {
@@ -187,7 +187,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection with all entities. Empty list will be returned if not existis entities.
         /// See errors and notifications in service bus to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> GetAllAsync()
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync()
         {
             IList<TModel> collection;
 
@@ -214,7 +214,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> GetAllAsync(Action<BasePaginationFilter> filter)
+        public virtual Task<IEnumerable<TModel>> GetAllAsync(Action<BasePaginationFilter> filter)
         {
             var options = new BasePaginationFilter();
 
@@ -231,7 +231,7 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         /// Returns a model collection. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual async Task<IList<TModel>> GetAllAsync(BasePaginationFilter filter)
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync(BasePaginationFilter filter)
         {
             IList<TModel> collection;
 
@@ -253,6 +253,32 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
         }
 
         /// <summary>
+        /// Counts the number of models in the database.
+        /// </summary>
+        /// <returns>Returns the number of models if exists or 0 if is empty.</returns>
+        public virtual Task<long> CountAsync()
+            => this.Db.LongCountAsync();
+
+        /// <summary>
+        /// Counts the number of models in database that satisfies a condition.
+        /// </summary>
+        /// <param name="predicate">A function to test each model for a condition.</param>
+        /// <returns>
+        /// Returns a model if found. Null will be returned if not found.
+        /// See errors and notifications in service bus notification store to verify if there was any problem.
+        /// </returns>
+        public virtual Task<long> CountAsync(Expression<Func<TModel, bool>> predicate)
+            => this.Db.LongCountAsync(predicate);
+
+        /// <summary>
+        /// Create a LINQ queryable of model.
+        /// </summary>
+        /// <returns>
+        /// Returns a queryable of model.
+        /// </returns>
+        public virtual IQueryable<TModel> Query() => this.Db.AsQueryable();
+
+        /// <summary>
         /// Set null and dispose entity framework objects.
         /// </summary>
         public virtual void Dispose()
@@ -260,21 +286,6 @@ namespace Praticis.Framework.Server.Data.Read.EFCore
             this.Context.Dispose();
             this.Context = null;
             this.Db = null;
-        }
-
-        public IQueryable<TModel> Query()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<long> CountAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<long> CountAsync(Expression<Func<TModel, bool>> predicate)
-        {
-            throw new NotImplementedException();
         }
     }
 }

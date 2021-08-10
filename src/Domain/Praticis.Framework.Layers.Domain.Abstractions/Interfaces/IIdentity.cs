@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace Praticis.Framework.Layers.Domain.Abstractions.Interfaces
+﻿namespace Praticis.Framework.Layers.Domain.Abstractions.Interfaces
 {
     public interface IIdentity<TKey>
     {

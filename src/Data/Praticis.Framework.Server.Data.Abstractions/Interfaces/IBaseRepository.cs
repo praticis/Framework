@@ -7,8 +7,8 @@ using Praticis.Framework.Layers.Domain.Abstractions.Objects;
 
 namespace Praticis.Framework.Server.Data.Abstractions
 {
-    public interface IBaseRepository<TModel, TKey> : IBaseReadRepository<TModel, TKey>, IDisposable
-        where TModel : IdentifiedObject<TKey>
+    public interface IBaseRepository<TModel, TId> : IBaseReadRepository<TModel, TId>, IDisposable
+        where TModel : IdentifiedObject<TId>
     {
         /// <summary>
         /// Insert a model in database.
@@ -72,7 +72,7 @@ namespace Praticis.Framework.Server.Data.Abstractions
 
         /// <summary>
         /// Execute basic logic to create or update model based on 
-        /// <see cref="IBaseReadRepository{TModel, TKey}.Exists(TKey)"/> results.
+        /// <see cref="IBaseReadRepository{TModel, TId}.Exists(TId)"/> results.
         /// Calli <see cref="CreateAsync(TModel)"/> if model not exists or 
         /// <see cref="UpdateAsync(TModel)"/> if model already exists.
         /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
@@ -86,7 +86,7 @@ namespace Praticis.Framework.Server.Data.Abstractions
 
         /// <summary>
         /// Execute basic logic to create or update model based on 
-        /// <see cref="IBaseReadRepository{TModel, TKey}.Exists(TKey)"/> results.
+        /// <see cref="IBaseReadRepository{TModel, TId}.Exists(TId)"/> results.
         /// Calli <see cref="CreateAsync(TModel)"/> if model not exists or 
         /// <see cref="UpdateAsync(TModel)"/> if model already exists.
         /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
@@ -100,7 +100,7 @@ namespace Praticis.Framework.Server.Data.Abstractions
 
         /// <summary>
         /// Execute basic logic to create or update model based on 
-        /// <see cref="IBaseReadRepository{TModel, TKey}.Exists(TKey)"/> results.
+        /// <see cref="IBaseReadRepository{TModel, TId}.Exists(TId)"/> results.
         /// Calli <see cref="CreateAsync(TModel)"/> if model not exists or 
         /// <see cref="UpdateAsync(TModel)"/> if model already exists.
         /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
@@ -122,7 +122,7 @@ namespace Praticis.Framework.Server.Data.Abstractions
         /// Returns <strong>True</strong> when sucess or <strong>False</strong> when there are errors
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        Task<bool> RemoveAsync(TKey id);
+        Task<bool> RemoveAsync(TId id);
 
         /// <summary>
         /// Remove models from database.
@@ -134,7 +134,7 @@ namespace Praticis.Framework.Server.Data.Abstractions
         /// Returns <strong>True</strong> when sucess or <strong>False</strong> when there are errors
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        Task RemoveAsync(params TKey[] ids);
+        Task RemoveAsync(params TId[] ids);
 
         /// <summary>
         /// Remove models from database.
@@ -146,7 +146,7 @@ namespace Praticis.Framework.Server.Data.Abstractions
         /// Returns <strong>True</strong> when sucess or <strong>False</strong> when there are errors
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        Task RemoveAsync(IEnumerable<TKey> ids);
+        Task RemoveAsync(IEnumerable<TId> ids);
 
         /// <summary>
         /// Remove a model from database.

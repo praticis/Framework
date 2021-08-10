@@ -1,7 +1,6 @@
-﻿using FluentValidation.Results;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+
+using FluentValidation.Results;
 
 namespace Praticis.Framework.Layers.Domain.Abstractions.Interfaces
 {

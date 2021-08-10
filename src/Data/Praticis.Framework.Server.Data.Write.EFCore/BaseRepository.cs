@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ using Praticis.Framework.Bus.Abstractions;
 
 using Praticis.Framework.Layers.Domain.Abstractions.Objects;
 using Praticis.Framework.Server.Data.Abstractions;
+using Praticis.Framework.Server.Data.Abstractions.Filters;
 
 namespace Praticis.Framework.Server.Data.Write.EFCore
 {
@@ -42,9 +44,9 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
             bool saved;
 
             if (this.Exists(model))
-                saved = await this.Update(model);
+                saved = await this.UpdateAsync(model);
             else
-                saved = await this.Add(model);
+                saved = await this.CreateAsync(model);
 
             return saved;
         }
@@ -103,7 +105,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a task with saving action running.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        protected virtual async Task<bool> Add(TModel model)
+        public virtual async Task<bool> CreateAsync(TModel model)
         {
             try
             {
@@ -121,6 +123,32 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         }
 
         /// <summary>
+        /// Insert a model collection in database.
+        /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
+        /// </summary>
+        /// <param name="models">The models to insert in database.</param>
+        /// <returns>
+        /// Returns a task with process running.
+        /// </returns>
+        public virtual async Task CreateAsync(IEnumerable<TModel> models)
+        {
+            foreach (var model in models)
+                await CreateAsync(model);
+        }
+
+        /// <summary>
+        /// Insert a model collection in database.
+        /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
+        /// </summary>
+        /// <param name="models">The models to insert in database.</param>
+        /// <returns>
+        /// Returns a task with process running.
+        /// </returns>
+        public virtual async Task CreateAsync(params TModel[] models)
+            => await CreateAsync(models.AsEnumerable());
+        
+
+        /// <summary>
         /// Update a model on database.
         /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
         /// Use NotificationStore on ServiceBus to verify if has notification errors.
@@ -130,7 +158,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a task with saving action running.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        protected virtual async Task<bool> Update(TModel model)
+        public virtual async Task<bool> UpdateAsync(TModel model)
         {
             try
             {
@@ -148,6 +176,31 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         }
 
         /// <summary>
+        /// Update a model collection in database.
+        /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
+        /// </summary>
+        /// <param name="models">The models to update in database.</param>
+        /// <returns>
+        /// Returns a task with process running.
+        /// </returns>
+        public virtual async Task UpdateAsync(IEnumerable<TModel> models)
+        {
+            foreach (var model in models)
+                await UpdateAsync(model);
+        }
+
+        /// <summary>
+        /// Update a model collection in database.
+        /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
+        /// </summary>
+        /// <param name="models">The models to update in database.</param>
+        /// <returns>
+        /// Returns a task with process running.
+        /// </returns>
+        public virtual async Task UpdateAsync(params TModel[] models)
+            => await UpdateAsync(models.AsEnumerable());
+
+        /// <summary>
         /// Remove a model from database.
         /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
         /// Use NotificationStore on ServiceBus to verify if has notification errors.
@@ -161,7 +214,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         {
             try
             {
-                var model = await this.SearchByIdAsync(id);
+                var model = await this.FindByIdAsync(id);
 
                 if (model is null)
                     return false;
@@ -200,6 +253,22 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
             Task.WaitAll(tasks.ToArray());
 
             return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// Remove models from database.
+        /// Use <see cref="Commit"/> or <seealso cref="CommitAsync"/> to confirm changes in database.
+        /// Use NotificationStore on ServiceBus to verify if has notification errors.
+        /// </summary>
+        /// <param name="ids">The model IDs to find and remove from database.</param>
+        /// <returns>
+        /// Returns <strong>True</strong> when sucess or <strong>False</strong> when there are errors
+        /// See errors and notifications in service bus notification store to verify if there was any problem.
+        /// </returns>
+        public virtual async Task RemoveAsync(IEnumerable<TId> ids)
+        {
+            foreach (var id in ids)
+                await RemoveAsync(id);
         }
 
         /// <summary>
@@ -318,6 +387,17 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         public virtual bool Exists(TModel model) => this._readRepository.Exists(model);
 
         /// <summary>
+        /// Verify if any model of repository satisfies a condition.
+        /// </summary>
+        /// <param name="predicate">A function to test each model for a condition.</param>
+        /// <returns>
+        /// Returns <strong>True</strong> if any model pass the test in the specified predicate or 
+        /// <strong>False</strong> if does not pass.
+        /// </returns>
+        public virtual bool Exists(Expression<Func<TModel, bool>> predicate)
+            => this._readRepository.Exists(predicate);
+
+        /// <summary>
         /// Find a model by identification key.
         /// Use var result = await SearchByIdAsync(id);
         /// </summary>
@@ -326,7 +406,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model if found. Null will be returned if not found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<TModel> SearchByIdAsync(TId id) => this._readRepository.SearchByIdAsync(id);
+        public virtual Task<TModel> FindByIdAsync(TId id) => this._readRepository.FindByIdAsync(id);
 
         /// <summary>
         /// Filters a sequence of models based on a predicate.
@@ -339,7 +419,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate) 
+        public virtual Task<IEnumerable<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate) 
             => this._readRepository.FindAsync(predicate);
 
         /// <summary>
@@ -351,7 +431,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, BasePaginationFilter filter) 
+        public virtual Task<IEnumerable<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, BasePaginationFilter filter) 
             => this._readRepository.FindAsync(predicate, filter);
 
         /// <summary>
@@ -363,8 +443,33 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model collection that match with predicate. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, Action<BasePaginationFilter> filter)
+        public virtual Task<IEnumerable<TModel>> FindAsync(Expression<Func<TModel, bool>> predicate, Action<BasePaginationFilter> filter)
             => this._readRepository.FindAsync(predicate, filter);
+
+        /// <summary>
+        /// Create a LINQ queryable of model.
+        /// </summary>
+        /// <returns>
+        /// Returns a queryable of model.
+        /// </returns>
+        public IQueryable<TModel> Query()
+            => this._readRepository.Query();
+
+        /// <summary>
+        /// Count total existing models in database.
+        /// </summary>
+        /// <returns>Returns quantity of models in database or 0 if nothing exists.</returns>
+        public virtual Task<long> CountAsync()
+            => this._readRepository.CountAsync();
+
+        /// <summary>
+        /// Count total existing models in database based on predicate.
+        /// </summary>
+        /// <returns>
+        /// Returns quantity of models in database matching with predicate or 0 if nothing match.
+        /// </returns>
+        public virtual Task<long> CountAsync(Expression<Func<TModel, bool>> predicate)
+            => this._readRepository.CountAsync(predicate);
 
         /// <summary>
         /// Load all entities. Is not recommended for many data.
@@ -375,7 +480,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model collection with all entities. Empty list will be returned if not exists entities.
         /// See errors and notifications in service bus to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> GetAllAsync() => this._readRepository.GetAllAsync();
+        public virtual Task<IEnumerable<TModel>> GetAllAsync() => this._readRepository.GetAllAsync();
 
         /// <summary>
         /// Load all entities. Use PageIndex and PageSize parameters to limit return length.
@@ -385,7 +490,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model collection. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> GetAllAsync(BasePaginationFilter filter) => this._readRepository.GetAllAsync(filter);
+        public virtual Task<IEnumerable<TModel>> GetAllAsync(BasePaginationFilter filter) => this._readRepository.GetAllAsync(filter);
 
         /// <summary>
         /// Load all entities. Use PageIndex and PageSize parameters to limit return length.
@@ -395,7 +500,7 @@ namespace Praticis.Framework.Server.Data.Write.EFCore
         /// Returns a model collection. An empty list will be returned if nothing found.
         /// See errors and notifications in service bus notification store to verify if there was any problem.
         /// </returns>
-        public virtual Task<IList<TModel>> GetAllAsync(Action<BasePaginationFilter> filter) => this._readRepository.GetAllAsync(filter);
+        public virtual Task<IEnumerable<TModel>> GetAllAsync(Action<BasePaginationFilter> filter) => this._readRepository.GetAllAsync(filter);
 
         #endregion
 

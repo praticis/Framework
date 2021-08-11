@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Bus\Praticis.Framework.Bus.Abstractions\Praticis.Framework.Bus.Abstractions.csproj" />
+    <ProjectReference Include="..\..\Domain\Praticis.Framework.Layers.Domain.Abstractions\Praticis.Framework.Layers.Domain.Abstractions.csproj" />
+    <ProjectReference Include="..\Praticis.Framework.Layers.Data.Abstractions\Praticis.Framework.Layers.Data.Abstractions.csproj" />
+    <ProjectReference Include="..\Praticis.Framework.Server.Data.MongoDB.Abstractions\Praticis.Framework.Server.Data.MongoDB.Abstractions.csproj" />
+  </ItemGroup>
+
+</Project>

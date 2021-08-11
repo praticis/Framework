@@ -108,13 +108,13 @@ jobs:
       env:
         context: Data
         package: Praticis.Framework.Layers.Data.Abstractions
-    # Praticis.Framework.Server.Data.Read.EFCore
+    # Praticis.Framework.Server.Data.EntityFrameworkCore.Read
     - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.context}}/${{env.package}}
       env:
         context: Data
-        package: Praticis.Framework.Server.Data.Read.EFCore
+        package: Praticis.Framework.Server.Data.EntityFrameworkCore.Read
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
@@ -122,14 +122,14 @@ jobs:
         path: ${{env.working-directory}}/${{env.context}}/${{env.package}}/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         context: Data
-        package: Praticis.Framework.Server.Data.Read.EFCore
-    # Praticis.Framework.Server.Data.Write.EFCore
+        package: Praticis.Framework.Server.Data.EntityFrameworkCore.Read
+    # Praticis.Framework.Server.Data.EntityFrameworkCore.Write
     - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
       working-directory: ${{env.working-directory}}/${{env.context}}/${{env.package}}
       env:
         context: Data
-        package: Praticis.Framework.Server.Data.Write.EFCore
+        package: Praticis.Framework.Server.Data.EntityFrameworkCore.Write
     - name: Archive ${{env.package}} Package
       uses: actions/upload-artifact@v1
       with:
@@ -137,7 +137,7 @@ jobs:
         path: ${{env.working-directory}}/${{env.context}}/${{env.package}}/bin/Release/${{env.package}}.${{ github.event.release.tag_name }}.nupkg
       env:
         context: Data
-        package: Praticis.Framework.Server.Data.Write.EFCore
+        package: Praticis.Framework.Server.Data.EntityFrameworkCore.Write
     # Praticis.Framework.Server.Data.MongoDB.Abstractions
     - name: Create ${{env.package}} Package
       run: dotnet pack -c Release /p:Version=${{github.event.release.tag_name}} /p:PackageReleaseNotes="See https://github.com/Praticis/Framework/releases/tag/${{ github.event.release.tag_name }}"
